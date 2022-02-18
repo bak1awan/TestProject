@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BaseGeometryActor.h"
+#include "Engine/Engine.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogBaseGeometry, All, All)
 
 // Sets default values
 ABaseGeometryActor::ABaseGeometryActor()
@@ -14,7 +17,8 @@ void ABaseGeometryActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    PrintTypes();
+    // PrintTypes();
+    // PrintStringTypes();
 }
 
 // Called every frame
@@ -40,4 +44,30 @@ void ABaseGeometryActor::PrintTypes()
     UE_LOG(LogTemp, Display, TEXT("Health: %.2f"), Health);
     UE_LOG(LogTemp, Display, TEXT("IsDead: %d"), bIsDead);
     UE_LOG(LogTemp, Display, TEXT("HasWeapon: %d"), bHasWeapon);
+}
+
+void ABaseGeometryActor::PrintStringTypes()
+{
+    FString Name = "John Connor";
+    UE_LOG(LogBaseGeometry, Display, TEXT("Name: %s"), *Name);
+
+    int WeaponsNum = 4;
+    int KillsNum = 7;
+    float Health = 34.435f;
+    bool bIsDead = false;
+    bool bHasWeapon = true;
+
+    FString WeaponsNumString = "WeaponsNum: " + FString::FromInt(WeaponsNum) + "\n";
+    FString KillsNumString = "KillsNum: " + FString::FromInt(WeaponsNum) + "\n";
+    FString HealthString = "Health: " + FString::SanitizeFloat(Health) + "\n";
+    FString IsDeadString = "IsDead: " + FString(bIsDead ? "true" : "false") + "\n";
+    FString HasWeaponString = "HasWeapo: " + FString(bHasWeapon ? "true" : "false") + "\n";
+
+    FString Statistics = FString::Printf(
+        TEXT("\n=== All Statistics ===\n%s%s%s%s%s"), *WeaponsNumString, *KillsNumString, *HealthString, *IsDeadString, *HasWeaponString);
+
+    UE_LOG(LogBaseGeometry, Display, TEXT("%s"), *Statistics);
+
+    GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, Name);
+    GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Statistics, true, FVector2D(1.5f, 1.5f));
 }

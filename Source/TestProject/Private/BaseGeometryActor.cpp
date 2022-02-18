@@ -13,10 +13,31 @@ ABaseGeometryActor::ABaseGeometryActor()
 void ABaseGeometryActor::BeginPlay()
 {
     Super::BeginPlay();
+
+    PrintTypes();
 }
 
 // Called every frame
 void ABaseGeometryActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+}
+
+void ABaseGeometryActor::PrintTypes()
+{
+    UE_LOG(LogTemp, Display, TEXT("Hello, Display!"));
+    UE_LOG(LogTemp, Warning, TEXT("Hello, Warning!"));
+    UE_LOG(LogTemp, Error, TEXT("Hello, Error!"));
+
+    int WeaponsNum = 4;
+    int KillsNum = 7;
+    float Health = 34.435f;
+    bool bIsDead = false;
+    bool bHasWeapon = true;
+
+    UE_LOG(LogTemp, Display, TEXT("WeaponsNum: %d"), WeaponsNum);
+    UE_LOG(LogTemp, Display, TEXT("KillsNum: %d"), KillsNum);
+    UE_LOG(LogTemp, Display, TEXT("Health: %.2f"), Health);
+    UE_LOG(LogTemp, Display, TEXT("IsDead: %d"), bIsDead);
+    UE_LOG(LogTemp, Display, TEXT("HasWeapon: %d"), bHasWeapon);
 }

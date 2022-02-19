@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 #include "BaseGeometryActor.generated.h"
 
 UCLASS()
@@ -14,6 +15,9 @@ class TESTPROJECT_API ABaseGeometryActor : public AActor
 public:
     // Sets default values for this actor's properties
     ABaseGeometryActor();
+
+    UPROPERTY(VisibleAnywhere)
+    UStaticMeshComponent* BaseMesh;
 
 protected:
     // Called when the game starts or when spawned
@@ -39,6 +43,15 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 private:
+    UPROPERTY(EditAnywhere, Category = "Movement")
+    float Amplitude = 50.f;
+
+    UPROPERTY(EditAnywhere, Category = "Movement")
+    float Frequency = 2.f;
+
+    FVector InitialLocation;
+
     void PrintTypes();
     void PrintStringTypes();
+    void PrintTransform();
 };

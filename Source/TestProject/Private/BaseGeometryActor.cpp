@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BaseGeometryActor.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/Engine.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseGeometry, All, All)
@@ -19,10 +20,14 @@ ABaseGeometryActor::ABaseGeometryActor()
 void ABaseGeometryActor::BeginPlay()
 {
     Super::BeginPlay();
+
     InitialLocation = GetActorLocation();
+
     // PrintTypes();
     // PrintStringTypes();
     // PrintTransform();
+
+    SetColor(GeometryData.Color);
 }
 
 // Called every frame
@@ -94,5 +99,14 @@ void ABaseGeometryActor::HandleMovement()
         }
         case EMovementType::Static: break;
         default: break;
+    }
+}
+
+void ABaseGeometryActor::SetColor(const FLinearColor& Color)
+{
+    UMaterialInstanceDynamic* DynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
+    if (DynMaterial)
+    {
+        DynMaterial->SetVectorParameterValue("Color", Color);
     }
 }

@@ -36,6 +36,7 @@ void ABaseGeometryActor::BeginPlay()
 void ABaseGeometryActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    HandleMovement();
 }
 
 void ABaseGeometryActor::PrintTypes()
@@ -82,21 +83,16 @@ void ABaseGeometryActor::PrintTransform()
     UE_LOG(LogBaseGeometry, Warning, TEXT("Actor human readable transform:\n%s"), *Transform.ToHumanReadableString());
 }
 
-void ABaseGeometryActor::SetLocation()
-{
-    FVector CurrentLocation = GetActorLocation();
-    float Time = GetWorld()->GetTimeSeconds();
-    CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Frequency * Time);
-    SetActorLocation(CurrentLocation);
-}
-
 void ABaseGeometryActor::HandleMovement()
 {
     switch (GeometryData.MoveType)
     {
         case EMovementType::Sin:
         {
-            SetLocation();
+            FVector CurrentLocation = GetActorLocation();
+            float Time = GetWorld()->GetTimeSeconds();
+            CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Frequency * Time);
+            SetActorLocation(CurrentLocation);
             break;
         }
         case EMovementType::Static: break;
@@ -113,7 +109,8 @@ void ABaseGeometryActor::SetColor(const FLinearColor& Color)
     }
 }
 
-void ABaseGeometryActor::OnTimerFired() {
+void ABaseGeometryActor::OnTimerFired()
+{
     if (TimerCount++ < TimerMax)
     {
         const FLinearColor NewColor = FLinearColor::MakeRandomColor();

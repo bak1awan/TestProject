@@ -23,7 +23,7 @@ struct FGeometryData
     float Amplitude = 50.0f;
 
     UPROPERTY(EditAnywhere, Category = "Movement")
-    float Frequency = 2.0f;
+    float Frequency = 10.0f;
 
     UPROPERTY(EditAnywhere, Category = "Movement")
     EMovementType MoveType = EMovementType::Static;
@@ -32,7 +32,7 @@ struct FGeometryData
     FLinearColor Color = FLinearColor::Black;
 
     UPROPERTY(EditAnywhere, Category = "Design")
-    float TimerRate = 1.f;
+    float TimerRate = 2.f;
 };
 
 UCLASS()
@@ -73,16 +73,17 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+    void SetGeometryData(const FGeometryData& Data) { GeometryData = Data; };
+
 private:
     FVector InitialLocation;
     FTimerHandle TimerHandle;
     int32 TimerCount = 0;
-    int32 TimerMax = 5;
+    int32 TimerMax = 100;
 
     void PrintTypes();
     void PrintStringTypes();
     void PrintTransform();
-    void SetLocation();
     void HandleMovement();
     void SetColor(const FLinearColor&);
     void OnTimerFired();

@@ -30,6 +30,9 @@ struct FGeometryData
 
     UPROPERTY(EditAnywhere, Category = "Design")
     FLinearColor Color = FLinearColor::Black;
+
+    UPROPERTY(EditAnywhere, Category = "Design")
+    float TimerRate = 1.f;
 };
 
 UCLASS()
@@ -72,6 +75,9 @@ public:
 
 private:
     FVector InitialLocation;
+    FTimerHandle TimerHandle;
+    int32 TimerCount = 0;
+    int32 TimerMax = 5;
 
     void PrintTypes();
     void PrintStringTypes();
@@ -79,4 +85,5 @@ private:
     void SetLocation();
     void HandleMovement();
     void SetColor(const FLinearColor&);
+    void OnTimerFired();
 };

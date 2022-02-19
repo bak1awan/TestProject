@@ -3,6 +3,7 @@
 #include "BaseGeometryActor.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/Engine.h"
+#include "TimerManager.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseGeometry, All, All)
 
@@ -28,6 +29,7 @@ void ABaseGeometryActor::BeginPlay()
     // PrintTransform();
 
     SetColor(GeometryData.Color);
+    GetWorldTimerManager().SetTimer(TimerHandle, this, &ABaseGeometryActor::OnTimerFired, GeometryData.TimerRate, true);
 }
 
 // Called every frame
@@ -108,5 +110,19 @@ void ABaseGeometryActor::SetColor(const FLinearColor& Color)
     if (DynMaterial)
     {
         DynMaterial->SetVectorParameterValue("Color", Color);
+    }
+}
+
+void ABaseGeometryActor::OnTimerFired() {
+    if (TimerCount++ < TimerMax)
+    {
+        const FLinearColor NewColor = FLinearColor::MakeRandomColor();
+        UE_LOG(LogBaseGeometry, Warning, TEXT("Change to %s color"), *NewColor.ToString());
+        SetColor(NewColor);
+    }
+    else
+    {
+        UE_LOG(LogBaseGeometry, Warning, TEXT("Timer has been stopped after %d ticks!"), TimerCount - 1);
+        GetWorldTimerManager().ClearTimer(TimerHandle);
     }
 }

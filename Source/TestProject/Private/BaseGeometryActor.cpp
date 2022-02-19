@@ -17,7 +17,7 @@ void ABaseGeometryActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    // PrintTypes();
+    PrintTypes();
     // PrintStringTypes();
 }
 
@@ -29,33 +29,18 @@ void ABaseGeometryActor::Tick(float DeltaTime)
 
 void ABaseGeometryActor::PrintTypes()
 {
-    UE_LOG(LogTemp, Display, TEXT("Hello, Display!"));
-    UE_LOG(LogTemp, Warning, TEXT("Hello, Warning!"));
-    UE_LOG(LogTemp, Error, TEXT("Hello, Error!"));
-
-    int WeaponsNum = 4;
-    int KillsNum = 7;
-    float Health = 34.435f;
-    bool bIsDead = false;
-    bool bHasWeapon = true;
-
-    UE_LOG(LogTemp, Display, TEXT("WeaponsNum: %d"), WeaponsNum);
-    UE_LOG(LogTemp, Display, TEXT("KillsNum: %d"), KillsNum);
-    UE_LOG(LogTemp, Display, TEXT("Health: %.2f"), Health);
-    UE_LOG(LogTemp, Display, TEXT("IsDead: %d"), bIsDead);
-    UE_LOG(LogTemp, Display, TEXT("HasWeapon: %d"), bHasWeapon);
+    UE_LOG(LogBaseGeometry, Warning, TEXT("Actor name: %s"), *GetName());
+    UE_LOG(LogBaseGeometry, Warning, TEXT("WeaponsNum: %d"), WeaponsNum);
+    UE_LOG(LogBaseGeometry, Warning, TEXT("KillsNum: %d"), KillsNum);
+    UE_LOG(LogBaseGeometry, Warning, TEXT("Health: %.2f"), Health);
+    UE_LOG(LogBaseGeometry, Warning, TEXT("IsDead: %d"), bIsDead);
+    UE_LOG(LogBaseGeometry, Warning, TEXT("HasWeapon: %d"), bHasWeapon);
 }
 
 void ABaseGeometryActor::PrintStringTypes()
 {
     FString Name = "John Connor";
-    UE_LOG(LogBaseGeometry, Display, TEXT("Name: %s"), *Name);
-
-    int WeaponsNum = 4;
-    int KillsNum = 7;
-    float Health = 34.435f;
-    bool bIsDead = false;
-    bool bHasWeapon = true;
+    UE_LOG(LogBaseGeometry, Warning, TEXT("Name: %s"), *Name);
 
     FString WeaponsNumString = "WeaponsNum: " + FString::FromInt(WeaponsNum) + "\n";
     FString KillsNumString = "KillsNum: " + FString::FromInt(WeaponsNum) + "\n";
@@ -66,7 +51,7 @@ void ABaseGeometryActor::PrintStringTypes()
     FString Statistics = FString::Printf(
         TEXT("\n=== All Statistics ===\n%s%s%s%s%s"), *WeaponsNumString, *KillsNumString, *HealthString, *IsDeadString, *HasWeaponString);
 
-    UE_LOG(LogBaseGeometry, Display, TEXT("%s"), *Statistics);
+    UE_LOG(LogBaseGeometry, Warning, TEXT("%s"), *Statistics);
 
     GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, Name);
     GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Statistics, true, FVector2D(1.5f, 1.5f));

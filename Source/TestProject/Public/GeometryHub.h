@@ -50,4 +50,9 @@ private:
     void SpawnInstantly();
     void SpawnDeferred();
     void SpawnDeeply();
+
+    UFUNCTION()
+    void OnColorChanged(const FLinearColor& Color, const FString& Name);
+
+    void OnTimerFinished(AActor*);
 };

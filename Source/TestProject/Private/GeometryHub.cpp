@@ -3,6 +3,8 @@
 #include "GeometryHub.h"
 #include "Engine/World.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogGeometryHub, All, All)
+
 // Sets default values
 AGeometryHub::AGeometryHub()
 {
@@ -10,13 +12,28 @@ AGeometryHub::AGeometryHub()
     PrimaryActorTick.bCanEverTick = true;
 }
 
+void AGeometryHub::OnColorChanged(const FLinearColor& Color, const FString& Name)
+{
+    UE_LOG(LogGeometryHub, Warning, TEXT("Color %s changed on %s."), *Color.ToString(), *Name);
+}
+
+void AGeometryHub::OnTimerFinished(AActor* Actor)
+{
+    ABaseGeometryActor* NewActor = Cast<ABaseGeometryActor>(Actor);
+    if (!NewActor) return;
+    UE_LOG(LogGeometryHub, Warning, TEXT("Down-cast worked! The amplitude is %.2f!"), NewActor->GetGeometryData().Amplitude);
+    UE_LOG(LogGeometryHub, Error, TEXT("Time finished on %s!"), *Actor->GetName());
+    UE_LOG(LogGeometryHub, Error, TEXT("\n%s"), *NewActor->GetGeometryData().ToString());
+    NewActor->Destroy();
+}
+
 // Called when the game starts or when spawned
 void AGeometryHub::BeginPlay()
 {
     Super::BeginPlay();
     SpawnDeeply();
-    SpawnDeferred();
-    SpawnInstantly();
+    // SpawnDeferred();
+    // SpawnInstantly();
 }
 // Called every frame
 void AGeometryHub::Tick(float DeltaTime)
@@ -65,7 +82,8 @@ void AGeometryHub::SpawnDeferred()
     }
 }
 
-void AGeometryHub::SpawnDeeply() {
+void AGeometryHub::SpawnDeeply()
+{
     UWorld* World = GetWorld();
     if (World)
     {
@@ -76,9 +94,10 @@ void AGeometryHub::SpawnDeeply() {
             if (Geometry)
             {
                 Geometry->SetGeometryData(Payload.Data);
+                Geometry->OnColorChanged.AddDynamic(this, &AGeometryHub::OnColorChanged);
+                Geometry->OnTimerFinished.AddUObject(this, &AGeometryHub::OnTimerFinished);
                 Geometry->FinishSpawning(Payload.InitialTransform);
             }
         }
     }
 }
-

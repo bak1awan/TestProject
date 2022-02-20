@@ -12,6 +12,7 @@
 UCLASS()
 class TESTPROJECT_API ATestProjectGameModeBase : public AGameModeBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+public:
+    ATestProjectGameModeBase();
 };

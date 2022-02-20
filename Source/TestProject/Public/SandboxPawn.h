@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Components/SceneComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Camera/CameraComponent.h"
 #include "SandboxPawn.generated.h"
 
 UCLASS()
@@ -19,8 +21,17 @@ public:
     UPROPERTY(VisibleAnywhere)
     USceneComponent* SceneComponent;
 
+    UPROPERTY(VisibleAnywhere)
+    UStaticMeshComponent* MeshComponent;
+
+    UPROPERTY(VisibleAnywhere)
+    UCameraComponent* CameraComponent;
+
     UPROPERTY(EditAnywhere)
-    float Velocity = 100.0f;
+    float Velocity = 500.0f;
+
+    virtual void PossessedBy(AController* NewController) override;
+    virtual void UnPossessed() override;
 
 protected:
     // Called when the game starts or when spawned
@@ -38,6 +49,4 @@ private:
 
     void MoveForward(float Amount);
     void MoveRight(float Amount);
-
-
 };
